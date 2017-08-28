@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #Created on June 2, 2017
-#Modified on July 6, 2017
+#Modified on Aug 15, 2017
 #Author: Anton Lunyov
 #This script creates a measure of post-inhibitory rebound as a function of 4 parameters - a,b,d and kLow in excitatory cells based on the strongly adapting model
 
@@ -29,11 +29,11 @@ b = 3.0 * nS
 c = -65.8 * mV
 
 #Single neuron simulation - 50 neurons with varying current steps
-N = 50
+N = 120
 
 #The values of the default current input - max and min. Down-up-down
 stepDown = 0.0 * pA
-stepUp = -0.5 * pA
+stepUp = -0.2 * pA
 
 #Time breakdowns - the interval of applied current is between beforeStep and afterStep. Duration of 1 second
 beforeStep = 0.5 * second
@@ -76,7 +76,7 @@ for y in range(len(aVals)):
 
                 #Keep track of iteration number and print out every xth
                 count = count + 1
-                if (count % 100 == 0):
+                if (count % 1000 == 0):
                     print(count)
 
                 #Find parameter values at current iteration
@@ -147,15 +147,16 @@ for y in range(len(aVals)):
                         #Invalid TC = +1 pA
                         #If more than one transitions occured, the effect is invalid - model breaks down
                         if (transitionNum > 1):
-                                transitionCurrents[y] = +1
+                                transitionCurrents[y,jj,ii,z] = +1
                         #No transition occured - current required is not enough, thus invalid
                         elif (transitionNum == 0):
-                                transitionCurrents[y] = +1
+                                transitionCurrents[y,jj,ii,z] = +1
                         elif (transitionNum == 1):
-                                transitionCurrents[y] = transitions[1]
+                                transitionCurrents[y,jj,ii,z] = transitions[1]
+                                #print(transitions[1])
                 #If cell firing before, invalid
                 else:
-                        transitionCurrents[y] = +1
+                        transitionCurrents[y,jj,ii,z] = +1
 
 
 #Save numpy array as file to be used in 4D_pullout.py
