@@ -6,6 +6,16 @@
 from brian2 import *
 from pylab import *
 
+def ReturnIndex(original,ref):
+    hh = 0
+    for h in range(len(original)):
+        if (original[h] == ref):
+            return h
+        elif (original[h] <= ref):
+            hh = h + 1
+        else: return hh-1
+        
+
 #No compiling - remove if needed
 prefs.codegen.target = "numpy"
 #Don't include previous Brian objects
@@ -58,7 +68,14 @@ Cells_time = SpikeMonitor(CELLS) #Don't record to speed up runtime
 
 duration = 100 * ms
 run(duration)
- 
+# Calculating Spike half-width
+PotenV = Cells_V.v[0] # Save membrane potential
+PotenT = Cells_V.t/ms # Save corresponding time steps for membrane potential
+SpikeT = SpikesTimes.t/ms
+PotentVLas = PotenV[ReturnIndex(Cells_V.t/ms,SpikeT[len(SpikeT)-2])+2:ReturnIndex(Cells_V.t/ms,SpikeT[len(SpikeT)-1])] # Lower-threshold potential of last spike
+print('Initial spike half-width %s ms' % (SpikeT[0] - PotenT[ReturnIndex(PotenV, -20.3 * mV)])) # initial Spike half-width
+print('Final spike half-width %s ms' % (SpikeT[len(SpikeT)-1] - PotenT[ReturnIndex(PotentVLas,-20.3 * mV)+ReturnIndex(Cells_V.t/ms,SpikeT[len(SpikeT)-2])+2]))# final Spike half-width
+
 print(Cells_V.v[0]/mV)
 print(Cells_V.t/ms)         
                 #Ploting the mv vs time for the set values
