@@ -89,7 +89,7 @@ for khi in range(len(khVals)):
     dv/dt = (k*(v-vR)*(v-vT)+Iappfixed-u)/Cm : volt
     '''
     # Creating Cells
-    Cells = NeuronGroup(1, model=cellEqs, reset = 'v = c; u += d' ,threshold='v>=vPeak', method='euler')
+    Cells = NeuronGroup(1, model=IzhCelEq, reset = 'v = c; u += d' ,threshold='v>=vPeak', method='euler')
     #Resting potential used as base
     Cells.v = vR
     Cells.u = 0 * pA
