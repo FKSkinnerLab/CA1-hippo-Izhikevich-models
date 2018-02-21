@@ -29,14 +29,14 @@ b = -0.1 * nS
 c = -67 * mV
 
 #Single neuron simulation - 60 individual neurons with varying current steps
-N = 150
+N = 60
 #Arrays for storing the initial and final ISI
 freq_initial = zeros(N)
 freq_final = zeros(N)
 
 #The values of the default current input - max and min. Down-up-down
 stepDown = 0.0 * pA
-stepUp = 2.0 * pA
+stepUp = 5.0 * pA
 
 #Time breakdowns - the interval of applied current is between beforeStep and afterStep
 beforeStep = 0.5 * second
